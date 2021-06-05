@@ -20,6 +20,7 @@ const dao = [
     save: true
   },
 
+  // 初始默认大小
   {
     name: "canvasSize",
     label: "Canvas Size",
@@ -78,7 +79,7 @@ const dao = [
     name: "canvasFill",
     label: "Canvas Fill",
     type: "object",
-    default: {type: "solidColor", solidColor: 'ffffff', alpha: 100},
+    default: { type: "solidColor", solidColor: 'ffffff', alpha: 100 },
     private: true,
     save: true
   },
@@ -87,7 +88,7 @@ const dao = [
     name: "canvasStroke",
     label: "Canvas Stroke",
     type: "object",
-    default: {type: "solidColor", solidColor: '000000', alpha: 100},
+    default: { type: "solidColor", solidColor: '000000', alpha: 100 },
     private: true,
     save: true
   },
@@ -96,7 +97,7 @@ const dao = [
     name: "canvasBackground",
     label: "Canvas Background",
     type: "object",
-    default: {type: "solidColor", solidColor: 'ffffff', alpha: 100},
+    default: { type: "solidColor", solidColor: 'ffffff', alpha: 100 },
     private: true,
     save: true
   },
@@ -118,7 +119,7 @@ const dao = [
     private: true,
     save: false
   },
- 
+
   // system level fields
   {
     name: "darkmode",
@@ -150,14 +151,14 @@ const dao = [
 ];
 
 dao.forEach(thing => {
-  thing.clean = function(value){
-     if (thing.type === "number") return isNaN(value) ? 0 : parseInt(value, 10);
-     if (thing.type === "string") return value  || "";
-     if (thing.type === "boolean") return value === "true" || value === true ? true : false;
-     if (thing.type === "url") return value || "";
-     if (thing.type === "id") return value || 0;
-     if (thing.type === "array") return typeof value === "object" ? value : value ? value.split(",") : [];
-     if (thing.type === "object") return typeof value === "object" ? value : value ? JSON.parse(value) : {};
-     else throw "type " + thing.type + " does not exist";
+  thing.clean = function (value) {
+    if (thing.type === "number") return isNaN(value) ? 0 : parseInt(value, 10);
+    if (thing.type === "string") return value || "";
+    if (thing.type === "boolean") return value === "true" || value === true ? true : false;
+    if (thing.type === "url") return value || "";
+    if (thing.type === "id") return value || 0;
+    if (thing.type === "array") return typeof value === "object" ? value : value ? value.split(",") : [];
+    if (thing.type === "object") return typeof value === "object" ? value : value ? JSON.parse(value) : {};
+    else throw "type " + thing.type + " does not exist";
   }
 });

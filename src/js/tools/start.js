@@ -1,8 +1,12 @@
+// 全局变量
 // globals
+
+// svg画布，主要区域
 const svgCanvas = new $.SvgCanvas(document.getElementById("svgcanvas"));
 const editor = new MD.Editor();
 const state = new State();
 
+// 编辑器的对话框
 editor.modal = {
   about: new MD.Modal({
     html: `
@@ -11,7 +15,9 @@ editor.modal = {
       <p>At this time (2021), the author (<a href="http://method.ac/writing">Mark MacKay</a>) is working on improving stability and improving the codebase, which contains a lot of legacy practices. The goal is to create a vector editor suitable for simple graphic design tasks.</p>
       `
   }),
+  // 查看源码的对话框
   source: new MD.Modal({
+    // 初始模版
     html: `
       <div id="svg_source_editor">
         <div id="svg_source_overlay" class="overlay"></div>
@@ -25,10 +31,11 @@ editor.modal = {
           </div>
         </div>
     </div>`,
-    js: function(el){
+    js: function (el) {
       el.children[0].classList.add("modal-item-source");
-      el.querySelector("#tool_source_save").addEventListener("click", function(){
-        var saveChanges = function() {
+      // 注入事件，保存源码
+      el.querySelector("#tool_source_save").addEventListener("click", function () {
+        var saveChanges = function () {
           svgCanvas.clearSelection();
           $('#svg_source_textarea').blur();
           editor.zoom.multiply(1);
@@ -39,19 +46,21 @@ editor.modal = {
         }
 
         if (!svgCanvas.setSvgString($('#svg_source_textarea').val())) {
-          $.confirm("There were parsing errors in your SVG source.\nRevert back to original SVG source?", function(ok) {
-            if(!ok) return false;
+          $.confirm("There were parsing errors in your SVG source.\nRevert back to original SVG source?", function (ok) {
+            if (!ok) return false;
             saveChanges();
           });
         } else {
           saveChanges();
-        } 
+        }
       })
-      el.querySelector("#tool_source_cancel").addEventListener("click", function(){
+      // 取消保存
+      el.querySelector("#tool_source_cancel").addEventListener("click", function () {
         editor.modal.source.close();
       });
     }
   }),
+  // 配置对话框
   configure: new MD.Modal({
     html: `
       <h1>Configuration</h1>
@@ -59,13 +68,14 @@ editor.modal = {
         <button class="warning">Erase all data</button>
         </div>
       </div>`,
-    js: function(el){
+    js: function (el) {
       const input = el.querySelector("#configuration button.warning");
-      input.addEventListener("click", function(){
+      input.addEventListener("click", function () {
         state.clean();
       })
     }
   }),
+  // 捐赠对话框
   donate: new MD.Modal({
     html: `
       <h1>Donate</h1>
@@ -74,11 +84,12 @@ editor.modal = {
         <a href="https://method.ac/donate/">Donate now</a> if you find this application useful.
       </p>`
   }),
+  // 快捷键对话框
   shortcuts: new MD.Modal({
     html: `
       <h1>Shortcuts</h1>
       <div id="shortcuts"></div>`,
-    js: function(el){
+    js: function (el) {
       el.children[0].classList.add("modal-item-wide");
     }
   })
@@ -86,6 +97,7 @@ editor.modal = {
 
 editor.keyboard = new MD.Keyboard();
 editor.menu = new MD.Menu();
+// 工具栏实例化
 editor.toolbar = new MD.Toolbar();
 editor.rulers = new MD.Rulers();
 editor.canvas = new MD.Canvas();

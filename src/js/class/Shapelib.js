@@ -1,16 +1,19 @@
-MD.Shapelib = function(){
+MD.Shapelib = function () {
   var current_d, cur_shape_id;
+  // 画布
   var canv = svgCanvas;
+  // 当前图形
   var cur_shape;
   var start_x, start_y;
   var svgroot = canv.getRootElem();
   var lastBBox = {};
 
-  $(document).on("mousedown", function(e){
+  $(document).on("mousedown", function (e) {
     if (!e.target.closest("#tools_shapelib"))
       $("#tools_shapelib").hide();
   })
-  
+
+  // 图形库分类
   // This populates the category list
   var categories = {
     basic: 'Basic',
@@ -26,7 +29,7 @@ MD.Shapelib = function(){
     ui: 'User Interface',
     social: 'Social Web'
   };
-  
+  // 基础图形
   var library = {
     'basic': {
       data: {
@@ -58,26 +61,26 @@ MD.Shapelib = function(){
       buttons: []
     }
   };
-  
+
   var cur_lib = library.basic;
   current_d = cur_lib.data.star_points_5
 
   var mode_id = 'shapelib';
-  
+
   function loadIcons() {
     $('#shape_buttons').empty();
-    
+
     // Show lib ones
     $('#shape_buttons').append(cur_lib.buttons);
   }
-  
+
   function loadLibrary(cat_id) {
-  
+
     var lib = library[cat_id];
-    
-    if(!lib) {
+
+    if (!lib) {
       $('#shape_buttons').html('Loading...');
-      $.getJSON('shapelib/' + cat_id + '.json', function(result, textStatus) {
+      $.getJSON('shapelib/' + cat_id + '.json', function (result, textStatus) {
         cur_lib = library[cat_id] = {
           data: result.data,
           size: result.size,
@@ -88,19 +91,19 @@ MD.Shapelib = function(){
       });
       return;
     }
-    
+
     cur_lib = lib;
-    if(!lib.buttons.length) makeButtons(cat_id, lib);
+    if (!lib.buttons.length) makeButtons(cat_id, lib);
     loadIcons();
   }
-  
+
   function makeButtons(cat, shapes) {
     var size = cur_lib.size || 300;
     var fill = cur_lib.fill || false;
     var off = size * .05;
-    var vb = [-off, -off, size + off*2, size + off*2].join(' ');
-    var stroke = fill ? 0: (size/30);
-    
+    var vb = [-off, -off, size + off * 2, size + off * 2].join(' ');
+    var stroke = fill ? 0 : (size / 30);
+
     var shape_icon = new DOMParser().parseFromString(
       '<svg xmlns="http://www.w3.org/2000/svg"><svg viewBox="' + vb + '"><path /><\/svg><\/svg>',
       'text/xml');
@@ -109,88 +112,88 @@ MD.Shapelib = function(){
     var height = 40;
     shape_icon.documentElement.setAttribute('width', width);
     shape_icon.documentElement.setAttribute('height', height);
-    var svg_elem = $(document.importNode(shape_icon.documentElement,true));
-  
+    var svg_elem = $(document.importNode(shape_icon.documentElement, true));
+
     var data = shapes.data;
-    
+
     cur_lib.buttons = [];
-  
-    for(var id in data) {
+
+    for (var id in data) {
       var path_d = data[id];
       var icon = svg_elem.clone();
       icon.find('path').attr('d', path_d);
-      
+
       var icon_btn = icon.wrap('<div class="tool_button">').parent().attr({
         id: mode_id + '_' + id,
         title: id
       });
-      
+
       // Store for later use
       cur_lib.buttons.push(icon_btn[0]);
     }
-    
+
   }
-  
+
   return {
-    callback: function() {
-    
+    callback: function () {
+
       var btn_div = $('<div id="shape_buttons">');
       $('#tools_shapelib > *').wrapAll(btn_div);
-      
+
       var shower = $('#tool_shapelib');
 
       loadLibrary('basic');
-      
+
       // Do mouseup on parent element rather than each button
-      $('#shape_buttons').mouseup(function(evt) {
+      $('#shape_buttons').mouseup(function (evt) {
         var btn = $(evt.target).closest('div.tool_button');
-        
-        if(!btn.length) return;
-        
-        var copy = btn.children().clone().attr({width: 24, height: 24});
+
+        if (!btn.length) return;
+
+        var copy = btn.children().clone().attr({ width: 24, height: 24 });
         shower.children(':not(.flyout_arrow_horiz)').remove();
         shower
           .append(copy)
           .attr('data-curopt', '#' + btn[0].id) // This sets the current mode
           .mouseup();
         canv.setMode(mode_id);
-        
-        cur_shape_id = btn[0].id.substr((mode_id+'_').length);
+
+        cur_shape_id = btn[0].id.substr((mode_id + '_').length);
         current_d = cur_lib.data[cur_shape_id];
-        
+
         $('.tools_flyout').fadeOut();
 
       });
 
       var shape_cats = $('<div id="shape_cats">');
       var cat_str = '';
-      
-      $.each(categories, function(id, label) {
+
+      $.each(categories, function (id, label) {
         cat_str += '<div data-cat=' + id + '>' + label + '</div>';
       });
       shape_cats.html(cat_str)
       $("[data-cat]", shape_cats)
-        .on('click', function(e) {
+        .on('click', function (e) {
           var catlink = $(this);
           catlink.siblings().removeClass('current');
           catlink.addClass('current');
           loadLibrary(catlink.attr('data-cat'));
-      });
-      
+        });
+
       shape_cats.children().eq(0).addClass('current');
-      
+
       $('#tools_shapelib').prepend(shape_cats);
 
-      shower.mouseup(function() {
+      shower.mouseup(function () {
         canv.setMode(current_d ? mode_id : 'select');
       });
 
-  
+
     },
-    mouseDown: function(opts) {
+    mouseDown: function (opts) {
       var mode = canv.getMode();
-      if(mode !== mode_id) return;
-      
+      if (mode !== mode_id) return;
+
       var e = opts.event;
       var x = start_x = opts.start_x;
       var y = start_y = opts.start_y;
@@ -207,13 +210,13 @@ MD.Shapelib = function(){
       });
       cur_shape.setAttribute("d", current_d);
       // Make sure shape uses absolute values
-      if(/[a-z]/.test(current_d)) {
+      if (/[a-z]/.test(current_d)) {
         current_d = cur_lib.data[cur_shape_id] = canv.pathActions.convertPath(cur_shape);
         cur_shape.setAttribute('d', current_d);
         canv.pathActions.fixEnd(cur_shape);
       }
-      
-      cur_shape.setAttribute('transform', "translate(" + x + "," + y + ") scale(0.005) translate(" + -x + "," + -y + ")");      
+
+      cur_shape.setAttribute('transform', "translate(" + x + "," + y + ") scale(0.005) translate(" + -x + "," + -y + ")");
       canv.recalculateDimensions(cur_shape);
       var tlist = canv.getTransformList(cur_shape);
       lastBBox = cur_shape.getBBox();
@@ -226,69 +229,69 @@ MD.Shapelib = function(){
       }
       // current_d
     },
-    mouseMove: function(opts) {
+    mouseMove: function (opts) {
       var mode = canv.getMode();
-      if(mode !== mode_id) return;
-      
+      if (mode !== mode_id) return;
+
       var zoom = canv.getZoom();
       var evt = opts.event
-      
-      var x = opts.mouse_x/zoom;
-      var y = opts.mouse_y/zoom;
-      
+
+      var x = opts.mouse_x / zoom;
+      var y = opts.mouse_y / zoom;
+
       var tlist = canv.getTransformList(cur_shape),
-        box = cur_shape.getBBox(), 
+        box = cur_shape.getBBox(),
         left = box.x, top = box.y, width = box.width,
         height = box.height;
-      var dx = (x-start_x), dy = (y-start_y);
+      var dx = (x - start_x), dy = (y - start_y);
 
       var newbox = {
-        'x': Math.min(start_x,x),
-        'y': Math.min(start_y,y),
-        'width': Math.abs(x-start_x),
-        'height': Math.abs(y-start_y)
+        'x': Math.min(start_x, x),
+        'y': Math.min(start_y, y),
+        'width': Math.abs(x - start_x),
+        'height': Math.abs(y - start_y)
       };
 
       var ts = null,
         tx = 0, ty = 0,
-        sy = height ? (height+dy)/height : 1, 
-        sx = width ? (width+dx)/width : 1;
+        sy = height ? (height + dy) / height : 1,
+        sx = width ? (width + dx) / width : 1;
 
       var sx = newbox.width / lastBBox.width;
       var sy = newbox.height / lastBBox.height;
-      
+
       sx = sx || 1;
       sy = sy || 1;
-      
+
       // Not perfect, but mostly works...
-      
-      if(x < start_x) {
+
+      if (x < start_x) {
         tx = lastBBox.width;
       }
-      if(y < start_y) ty = lastBBox.height;
-      
+      if (y < start_y) ty = lastBBox.height;
+
       // update the transform list with translate,scale,translate
       var translateOrigin = svgroot.createSVGTransform(),
         scale = svgroot.createSVGTransform(),
         translateBack = svgroot.createSVGTransform();
-        
-      translateOrigin.setTranslate(-(left+tx), -(top+ty));
-      if(evt.shiftKey) {
+
+      translateOrigin.setTranslate(-(left + tx), -(top + ty));
+      if (evt.shiftKey) {
         replaced = true
         var max = Math.min(Math.abs(sx), Math.abs(sy));
         sx = max * (sx < 0 ? -1 : 1);
         sy = max * (sy < 0 ? -1 : 1);
         if (totalScale.sx != totalScale.sy) {
-          var multiplierX = (totalScale.sx > totalScale.sy) ? 1 : totalScale.sx/totalScale.sy;
-          var multiplierY = (totalScale.sy > totalScale.sx) ? 1 : totalScale.sy/totalScale.sx;
+          var multiplierX = (totalScale.sx > totalScale.sy) ? 1 : totalScale.sx / totalScale.sy;
+          var multiplierY = (totalScale.sy > totalScale.sx) ? 1 : totalScale.sy / totalScale.sx;
           sx *= multiplierY
           sy *= multiplierX
         }
       }
       totalScale.sx *= sx;
       totalScale.sy *= sy;
-      scale.setScale(sx,sy);
-      translateBack.setTranslate(left+tx, top+ty);
+      scale.setScale(sx, sy);
+      translateBack.setTranslate(left + tx, top + ty);
       var N = tlist.numberOfItems;
       tlist.appendItem(translateBack);
       tlist.appendItem(scale);
@@ -297,11 +300,11 @@ MD.Shapelib = function(){
       canv.recalculateDimensions(cur_shape);
       lastBBox = cur_shape.getBBox();
     },
-    mouseUp: function(opts) {
+    mouseUp: function (opts) {
       var mode = canv.getMode();
-      if(mode !== mode_id) return;
-      
-      if(opts.mouse_x == start_x && opts.mouse_y == start_y) {
+      if (mode !== mode_id) return;
+
+      if (opts.mouse_x == start_x && opts.mouse_y == start_y) {
         return {
           keep: false,
           element: cur_shape,
@@ -314,6 +317,6 @@ MD.Shapelib = function(){
         element: cur_shape,
         started: false
       }
-    }   
+    }
   }
 }

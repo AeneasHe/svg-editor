@@ -1,12 +1,13 @@
-MD.Toolbar = function(){
+MD.Toolbar = function () {
 
   // tools left
-  $("#tools_left .tool_button").on("click", function(){ 
+  $("#tools_left .tool_button").on("click", function () {
     const mode = this.getAttribute("data-mode");
     state.set("canvasMode", mode)
     if (mode === "shapelib") showShapeLib()
   });
 
+  // 切换工具的模式
   function setMode(mode) {
     $(".tool_button").removeClass("current");
     $("#tool_" + mode).addClass("current");
@@ -14,7 +15,7 @@ MD.Toolbar = function(){
     svgCanvas.setMode(mode);
   }
 
-  function showShapeLib(){
+  function showShapeLib() {
     $("#tools_shapelib").show();
   }
 
