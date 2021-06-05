@@ -2,6 +2,7 @@ MD.Toolbar = function () {
 
   // tools left
   $("#tools_left .tool_button").on("click", function () {
+    // 获取当前工具的模式
     const mode = this.getAttribute("data-mode");
     state.set("canvasMode", mode)
     if (mode === "shapelib") showShapeLib()

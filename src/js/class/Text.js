@@ -1,6 +1,6 @@
-MD.Text = function(){
+MD.Text = function () {
 
-  function placeTextOnPath(){
+  function placeTextOnPath() {
     const elems = editor.selected;
     const needsConversion = elems.find(elem => ["ellipse", "circle", "line", "polyline", "polygon", "rect"].indexOf(elem.tagName) > -1);
     if (needsConversion) {
@@ -15,26 +15,26 @@ MD.Text = function(){
     editor.selectedChanged(window, [text]);
   }
 
-  function releaseTextOnPath(){
+  function releaseTextOnPath() {
     const text = svgCanvas.releaseTextPath();
     const selector = svgCanvas.selectorManager.requestSelector(text);
     selector.resize();
     editor.selectedChanged(window, [text]);
   }
 
-  function setBold(){
+  function setBold() {
     if ($(this).hasClass("disabled")) return;
-    svgCanvas.setBold( !svgCanvas.getBold() );
+    svgCanvas.setBold(!svgCanvas.getBold());
     editor.panel.updateContextPanel();
   }
 
-  function setItalic(){
+  function setItalic() {
     if ($(this).hasClass("disabled")) return;
-    svgCanvas.setItalic( !svgCanvas.getItalic() );
+    svgCanvas.setItalic(!svgCanvas.getItalic());
     editor.panel.updateContextPanel();
   }
 
-  $('#font_family').change(function() {
+  $('#font_family').change(function () {
     svgCanvas.setFontFamily(this.value);
   });
 
@@ -44,15 +44,15 @@ MD.Text = function(){
   $("#tool_bold").on("click", setBold);
   $("#tool_italic").on("click", setItalic);
 
-  $('#font_family_dropdown').change(function() {
+  $('#font_family_dropdown').change(function () {
     var fam = this.options[this.selectedIndex].value;
     const isSystemFont = fam === "sans-serif" || fam === "serif" || fam === "monospace";
-    const font = isSystemFont ? {Bold: true, Italic: true, "BoldItalic": true} : fonts[fam];
+    const font = isSystemFont ? { Bold: true, Italic: true, "BoldItalic": true } : fonts[fam];
     if (!isSystemFont) fam = `'${fam}'`;
-    
+
     svgCanvas.setBold(false);
     svgCanvas.setItalic(false);
-    
+
     $("#tool_bold")
       .removeClass("active")
       .toggleClass("disabled", !font.Bold);
@@ -60,26 +60,26 @@ MD.Text = function(){
     $("#tool_italic")
       .removeClass("active")
       .toggleClass("disabled", !font.Italic);
-    
+
     var fam_display = this.options[this.selectedIndex].text;
     $('#preview_font').html(fam_display).css("font-family", fam);
     $('#font_family').val(fam).change();
     // todo should depend on actual load
     document.fonts.onloadingdone = function (fontFaceSetEvent) {
-    const els = svgCanvas.getSelectedElems();
+      const els = svgCanvas.getSelectedElems();
       els.forEach(el => {
         var selector = svgCanvas.selectorManager.requestSelector(el);
         selector.resize();
       })
-     };
-    
+    };
+
   });
 
   $('#text')
-    .keydown(function(e){
+    .keydown(function (e) {
       e.stopPropagation();
     })
-    .keyup(function(e){
+    .keyup(function (e) {
       e.stopPropagation();
       if (e.key === "Escape" || e.key === "Enter") {
         if (!$("#text_panel").hasClass("text-path")) svgCanvas.textActions.toSelectMode();
@@ -90,16 +90,17 @@ MD.Text = function(){
       var elems = svgCanvas.getSelectedElems();
       svgCanvas.selectorManager.requestSelector(elems[0]).reset(elems[0]);
     })
-    .click(function(e) {
+    .click(function (e) {
       this.focus();
       this.select();
     });
 
-  function changeFontSize(attr, value, completed){
+  // 改变文字大小
+  function changeFontSize(attr, value, completed) {
     svgCanvas.setFontSize(value);
   }
 
-  function setTextPathAttr(a, val){
+  function setTextPathAttr(a, val) {
     svgCanvas.setTextPathAttr('startOffset', val);
     var elems = svgCanvas.getSelectedElems();
     svgCanvas.selectorManager.requestSelector(elems[0]).reset(elems[0]);

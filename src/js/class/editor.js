@@ -202,6 +202,9 @@ MD.Editor = function () {
     }
   }
 
+  // 修改图形属性
+  // attr 属性名, html中 data-attr 的值
+  // value 属性值
   function changeAttribute(attr, value, completed) {
     if (attr === "opacity") value *= 0.01;
     if (completed) {

@@ -135,6 +135,7 @@ $.SvgCanvas = function (container, config) {
       stroke: "#" + curConfig.initStroke.color,
       stroke_paint: null,
       stroke_opacity: curConfig.initStroke.opacity,
+      // 线宽初始值
       stroke_width: curConfig.initStroke.width,
       stroke_dasharray: 'none',
       opacity: curConfig.initOpacity
@@ -7712,6 +7713,8 @@ $.SvgCanvas = function (container, config) {
   // Returns:
   // If the getBBox flag is true, the resulting path's bounding box object.
   // Otherwise the resulting path element is returned.
+  // 如果getBBox为真，返回封闭的图形，否则返回路径
+
   this.convertToPath = function (elem, getBBox) {
     if (elem == null) {
       var elems = selectedElements;
@@ -7780,6 +7783,7 @@ $.SvgCanvas = function (container, config) {
     // Possibly the cubed root of 6, but 1.81 works best
     var num = 1.81;
 
+    // 切换路径
     switch (elem.tagName) {
       case 'ellipse':
       case 'circle':
