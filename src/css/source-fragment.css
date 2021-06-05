@@ -1,0 +1,55 @@
+/* 源码相关样式 */
+
+#svg_source_fragment_editor {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    bottom: 50px;
+    left: 20px;
+    width: 60%;
+    height: 50px;
+    background-color: var(--z1);
+    max-width: 650px;
+}
+
+#svg_source_fragment_container {
+    max-width: 800px;
+    position: relative;
+    height: 100%;
+}
+
+#svg_source_fragment_editor form {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 12px;
+    background-color: var(--z1);
+    border-radius: 8px 8px 8px 8px;
+    border: solid var(--z3) 1px;
+}
+
+#svg_source_fragment_textarea {
+    width: calc(100% - 24px);
+    height: 50px;
+    line-height: 140%;
+    font-family: var(--mono-font);
+    font-size: 12px;
+    color: white;
+    border: none;
+    padding: 0 10px 0 10px;
+    /* background-color: transparent; */
+    background-color: var(--z1);
+    outline: none;
+}
+
+#svg_source_fragment_editor #tool_source_back {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--x2) var(--x2);
+}

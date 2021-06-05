@@ -5,32 +5,34 @@
   flex-wrap: wrap;
 }
 
+/* 属性输入格子 */
 .draginput {
   background-color: var(--z2);
   border-radius: var(--x1);
   width: calc(50% - var(--x2));
+  max-width: calc(var(--x9) * 2);
   height: calc(var(--x9) * 2);
   display: block;
   position: relative;
   margin: 0 var(--x2) var(--x2) 0;
   overflow: hidden;
   transition: var(--transition);
-  box-shadow:  none;
+  box-shadow: none;
 }
 
 .dragging .draginput {
-  pointer-events:  none;
+  pointer-events: none;
 }
 
 .dragging .draginput.active {
-  pointer-events:  all;
+  pointer-events: all;
   box-shadow: none;
 }
 
 .draginput:hover {
   background-color: var(--z3);
   transition: none;
-  box-shadow:  var(--shadow-bg);
+  box-shadow: var(--shadow-bg);
 }
 
 .draginput:hover span,
@@ -43,7 +45,7 @@
   color: var(--d8);
 }
 
-.draginput.active, 
+.draginput.active,
 .draginput.active:hover {
   background-color: var(--z0);
 }
@@ -63,12 +65,12 @@
 }
 
 .draginput-button-delete:hover {
-  background-color:  var(--a7);
-  color:  var(--a15);
+  background-color: var(--a7);
+  color: var(--a15);
   transition: none;
 }
 
- .draginput .caret {
+.draginput .caret {
   border: solid transparent 5px;
   border-top-color: var(--z9);
   position: absolute;
@@ -86,7 +88,8 @@
   font-weight: bold;
 }
 
-.draginput label#resolution_label,  .draginput label#seg_type_label {
+.draginput label#resolution_label,
+.draginput label#seg_type_label {
   font: bold 12px/110% sans-serif;
   position: absolute;
   left: auto;
@@ -120,7 +123,7 @@
 .draginput input {
   border: none;
   background: transparent;
-  font: 24px/normal sans-serif;
+  font: 24px / normal sans-serif;
   text-align: center;
   color: var(--d7);
   padding: 30px 0 16px;
@@ -130,10 +133,12 @@
   z-index: 2;
 }
 
-.draginput input::selection { background: var(--d4); }
+.draginput input::selection {
+  background: var(--d4);
+}
 
-.draginput.text-input input, 
-.draginput.text-input input:hover, 
+.draginput.text-input input,
+.draginput.text-input input:hover,
 .draginput.text-input input:active {
   cursor: text;
 }
@@ -152,7 +157,7 @@
 .draginput.textcontent input {
   cursor: text;
   text-align: left;
-  text-indent:  var(--x2);
+  text-indent: var(--x2);
 }
 
 .draginput.textcontent input,
@@ -162,7 +167,7 @@
 }
 
 .text-path .draginput.textcontent {
-  opacity:  1;
+  opacity: 1;
   position: relative;
   cursor: text;
 }
@@ -171,24 +176,30 @@
   width: 100%;
 }
 
-.draginput input, .draginput input:hover, .draginput input:active {  
-    cursor: url(../images/drag.png), move;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
+.draginput input,
+.draginput input:hover,
+.draginput input:active {
+  cursor: url(../images/drag.png), move;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
 }
 
-.draginput input[type="checkbox"], .draginput input[type="checkbox"]:hover, .draginput input[type="checkbox"]:active {  
-    cursor: pointer;
+.draginput input[type="checkbox"],
+.draginput input[type="checkbox"]:hover,
+.draginput input[type="checkbox"]:active {
+  cursor: pointer;
 }
 
 .draginput.checkbox {
   cursor: pointer;
 }
 
-.draginput.active input, .draginput.active input:hover, .draginput.active input:active {  
-    cursor: url(../images/dragging.png), move;
-    cursor: -webkit-grabbing;
-    cursor: -moz-grabbing;
+.draginput.active input,
+.draginput.active input:hover,
+.draginput.active input:active {
+  cursor: url(../images/dragging.png), move;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
 }
 
 .draginput input:invalid {
@@ -227,14 +238,14 @@
   z-index: 1;
   top: 0;
   left: 0;
-  cursor:  pointer;
+  cursor: pointer;
 }
 
 .draginput:hover .draginput_cursor {
   border-color: var(--d6);
 }
 
-.draginput_cursor{
+.draginput_cursor {
   position: absolute;
   top: 50%;
   width: 100%;
@@ -242,7 +253,7 @@
   z-index: 0;
 }
 
-.draginput input[readonly=readonly] {
+.draginput input[readonly="readonly"] {
   -webkit-appearance: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -259,7 +270,7 @@
   box-shadow: 0 0 5px 2px var(--d7);
 }
 
- .draginput input:focus+span {
+.draginput input:focus + span {
   z-index: 10;
   color: var(--z15);
 }
@@ -288,8 +299,8 @@ body.dragging .draginput .angle {
 }
 
 .draginput .angle-cursor {
-  width:         4px;
-  height:        25px;
+  width: 4px;
+  height: 25px;
   border-top: solid var(--d7) 3px;
   position: absolute;
   margin: 0 0 0 23px;
@@ -307,7 +318,6 @@ body.dragging .draginput .angle {
 .inverted .draginput {
   background-color: var(--z1);
 }
-
 
 .inverted .draginput:hover {
   background-color: var(--z0);

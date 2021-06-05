@@ -30,6 +30,8 @@
 // Parameters:
 // container - The container HTML element that should hold the SVG root element
 // config - An object that contains configuration data
+
+// 全局的 SvgCanvas 类
 $.SvgCanvas = function (container, config) {
   // Namespace constants
   var svgns = "http://www.w3.org/2000/svg",
@@ -44,7 +46,7 @@ $.SvgCanvas = function (container, config) {
   var curConfig = {
     show_outside_canvas: true,
     selectNew: true,
-    dimensions: [800, 600],
+    dimensions: [600, 600],
     initFill: { color: 'fff', opacity: 1 },
     initStroke: { width: 1, color: '000', opacity: 1 },
     imgPath: 'images/',
@@ -60,6 +62,7 @@ $.SvgCanvas = function (container, config) {
   // Array with width/height of canvas
   var dimensions = curConfig.dimensions;
 
+  // 画布
   var canvas = this;
 
   // "document" element associated with the container (same as window.document using default svg-editor.js)
@@ -75,6 +78,7 @@ $.SvgCanvas = function (container, config) {
   this.svgroot = svgroot;
   container.appendChild(svgroot);
 
+  // 画布内容
   // The actual element that represents the final output SVG element
   var svgcontent = svgdoc.createElementNS(svgns, "svg");
 
@@ -152,6 +156,8 @@ $.SvgCanvas = function (container, config) {
 
   // Current shape style properties
   var cur_shape = all_properties.shape;
+
+  // 当前选中的所有元素
 
   // Array with all the currently selected elements
   // default size of 1 until it needs to grow bigger
@@ -2098,6 +2104,8 @@ $.SvgCanvas = function (container, config) {
     }
   };
 
+  // 从鼠标事件中，得到目标元素
+
   // Function: getMouseTarget
   // Gets the desired element from a mouse event
   // 
@@ -2155,6 +2163,7 @@ $.SvgCanvas = function (container, config) {
     //  if (mouse_target.nodeName.toLowerCase() == "div") {
     //    mouse_target = svgroot;
     //  }
+    // console.log("svgcanvas mouse_target:", svgCanvas.svgToString(mouse_target));
 
     return mouse_target;
   };
@@ -2559,12 +2568,23 @@ $.SvgCanvas = function (container, config) {
 
       evt.preventDefault();
 
+      // 画布当前模式
       switch (current_mode) {
+
+        // 选择
         case "select":
+
+
+          // console.log("svgcanvas select")
+          // console.log("svgcanvas selected svg str:", this.svgToString(selectedElements[0]))
+
+
           // we temporarily use a translate on the element(s) being dragged
           // this transform is removed upon mousing up and the element is 
           // relocated to the new location
           if (selectedElements[0] !== null) {
+
+
             var dx = x - start_x;
             var dy = y - start_y;
 
@@ -2636,6 +2656,8 @@ $.SvgCanvas = function (container, config) {
 
           }
           break;
+
+        // 多个选择
         case "multiselect":
           real_x *= current_zoom;
           real_y *= current_zoom;
@@ -2674,6 +2696,8 @@ $.SvgCanvas = function (container, config) {
             addToSelection(elemsToAdd);
 
           break;
+
+        // 重设大小
         case "resize":
           // we track the resize bounding box and translate/scale the selected element
           // while the mouse is down, when mouse goes up, we use this to recalculate
@@ -2832,6 +2856,8 @@ $.SvgCanvas = function (container, config) {
           }, 1000);
 
           break;
+
+        // 圆形模式
         case "circle":
           var c = $(shape).attr(["cx", "cy"]);
           var cx = c.cx, cy = c.cy,
@@ -3011,6 +3037,7 @@ $.SvgCanvas = function (container, config) {
     //   identified, a ChangeElementCommand is created and stored on the stack for those attrs
     //   this is done in when we recalculate the selected dimensions()
     var mouseUp = function (evt) {
+
       canvas.addClones = false;
       window.removeEventListener("keyup", canvas.removeClones)
       selectedElements = selectedElements.filter(Boolean)
@@ -3043,6 +3070,13 @@ $.SvgCanvas = function (container, config) {
           current_mode = "select";
         case "select":
           if (selectedElements[0] != null) {
+            console.log("mouse up :svgcanvas select ")
+            var mouse_target = svgCanvas.svgToString(getMouseTarget(evt));
+
+            console.log("=====> svgCanvas up mouse_target:", mouse_target)
+
+            editor.sourceFragment.show(mouse_target)
+
             // if we only have one selected element
             if (selectedElements.length === 1) {
               // set our current stroke/fill properties to the element's
@@ -3306,6 +3340,7 @@ $.SvgCanvas = function (container, config) {
       }
 
       start_transform = null;
+      editor.source();
     };
 
     var dblClick = function (evt) {
@@ -3365,6 +3400,7 @@ $.SvgCanvas = function (container, config) {
       return false;
     };
 
+    // 将鼠标数据绑定到容器
     // Added mouseup to the container here.
     // TODO(codedread): Figure out why after the Closure compiler, the window mouseup is ignored.
     $(container)
@@ -5064,6 +5100,8 @@ $.SvgCanvas = function (container, config) {
     return numRemoved;
   }
 
+  // 将当前画布由dom转成string
+
   // Function: svgCanvasToString
   // Main function to set up the SVG content for output 
   //
@@ -5117,12 +5155,15 @@ $.SvgCanvas = function (container, config) {
     return output;
   };
 
+
+  // 将svg子元素转出字符串
+
   // Function: svgToString
   // Sub function ran on each SVG element to convert it to a string as desired
   // 
   // Parameters: 
   // elem - The SVG element to convert
-  // indent - Integer with the amount of spaces to indent this tag
+  // indent - Integer with the amount of spaces to indent this tag， 缩进空格数量
   //
   // Returns: 
   // String with the given element as an SVG tag
@@ -5334,7 +5375,7 @@ $.SvgCanvas = function (container, config) {
     console.log(str)
     var blob = new Blob([str], { type: "image/svg+xml;charset=utf-8" });
     var dropAutoBOM = true;
-    saveAs(blob, "FVE-image.svg", dropAutoBOM);
+    saveAs(blob, "new.svg", dropAutoBOM);
   };
 
   // Function: rasterExport
@@ -5370,6 +5411,7 @@ $.SvgCanvas = function (container, config) {
     call("exported", { svg: str, issues: issues });
   };
 
+  // 得到当前的svg字符串
   // Function: getSvgString
   // Returns the current drawing as raw SVG XML text.
   //
@@ -6795,6 +6837,11 @@ $.SvgCanvas = function (container, config) {
     return current_mode;
   };
 
+  this.getCurrentSelect = function () {
+    return selectedElements;
+  };
+
+
   // Function: setMode
   // Sets the editor's mode to the given string
   //
@@ -7012,6 +7059,7 @@ $.SvgCanvas = function (container, config) {
   // Parameters: 
   // type - String with "fill" or "stroke"
   // paint - The jGraduate paint object to apply
+  // 设置画笔的颜色：填充或线条
   this.setPaint = function (type, paint) {
     // make a copy
     var p = new $.jGraduate.Paint(paint);

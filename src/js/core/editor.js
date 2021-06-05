@@ -42,6 +42,7 @@ MD.Editor = function () {
     }
   }
 
+  // 对选中的元素进行操作
   function duplicateSelected() {
     if (!_self.selected.length) return false;
     _self.menu.flash($('#edit_menu'));
@@ -137,6 +138,7 @@ MD.Editor = function () {
     var fill = editor.paintBox.fill.getPaint(fill_color, fill_opacity, "fill");
     editor.paintBox.fill.setPaint(stroke, true);
     editor.paintBox.stroke.setPaint(fill, true);
+    console.log("====> switchPaint")
   };
 
   function escapeMode() {
@@ -149,12 +151,24 @@ MD.Editor = function () {
       saveCanvas()
   }
 
+  // 选中的元素发生变化时，触发
   // called when we've selected a different element
   function selectedChanged(window, elems) {
+
+
     const mode = svgCanvas.getMode();
     _self.selected = elems.filter(Boolean);
+
+    console.log("select new elems:", _self.selected)
+    // console.log("select new elems:", svgCanvas.get)
+
+    //console.log("selected svg str:", svgCanvas.svgToString(svgCanvas.selectedElements))
+
+    // 更新编辑器当前的画笔，设置为选中的元素一样的颜色
     editor.paintBox.fill.update();
     editor.paintBox.stroke.update();
+
+    // 更新属性面板
     editor.panel.updateContextPanel(_self.selected);
   };
 
@@ -307,6 +321,8 @@ MD.Editor = function () {
 
   function saveCanvas() {
     console.log("saved")
+
+    // 保存画布内容，持久化到localstorage
     state.set("canvasContent", svgCanvas.getSvgString());
   }
 
@@ -350,11 +366,14 @@ MD.Editor = function () {
 
   // 查看源码
   function source() {
-    const textarea = editor.modal.source.el.querySelector("textarea");
+    //const textarea = editor.modal.source.el.querySelector("textarea");
+    const textarea = editor.sourceView.source.el.querySelector("textarea");
     textarea.value = svgCanvas.getSvgString();
     // 打开编辑器的源码对话框
-    editor.modal.source.open();
+    editor.sourceView.source.open();
+    editor.saveCanvas();
   }
+
 
   this.el = el;
   this.selectedChanged = selectedChanged;
@@ -368,6 +387,8 @@ MD.Editor = function () {
   this.undo = undo;
   this.redo = redo;
   this.clear = clear;
+
+  // 对选中的元素进行操作
   this.duplicateSelected = duplicateSelected;
   this.deleteSelected = deleteSelected;
   this.cutSelected = cutSelected;
@@ -378,6 +399,8 @@ MD.Editor = function () {
   this.moveToBottomSelected = moveToBottomSelected;
   this.moveDownSelected = moveDownSelected;
   this.moveSelected = moveSelected;
+
+
   this.convertToPath = convertToPath;
   this.reorientPath = reorientPath;
   this.escapeMode = escapeMode;

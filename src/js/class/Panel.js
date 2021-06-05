@@ -1,3 +1,5 @@
+// 右侧属性面板
+
 MD.Panel = function () {
 
   // 画布属性
@@ -30,6 +32,7 @@ MD.Panel = function () {
   $('#circle_cx').dragInput({ min: 1, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
   $('#circle_cy').dragInput({ min: 1, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
   $('#circle_r').dragInput({ min: 1, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
+
   // 选择
   $('#selected_x').dragInput({ min: null, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
   $('#selected_y').dragInput({ min: null, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
@@ -39,6 +42,7 @@ MD.Panel = function () {
   $("#path_node_y").dragInput({ min: null, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
   $('#path_x').dragInput({ min: null, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
   $('#path_y').dragInput({ min: null, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
+
   // 线条
   $('#line_x1').dragInput({ min: null, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
   $('#line_x2').dragInput({ min: null, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
@@ -53,8 +57,10 @@ MD.Panel = function () {
   $('#text_x').dragInput({ min: null, max: null, step: 1, callback: editor.changeAttribute, cursor: false });
   $('#font_size').dragInput({ min: 1, max: 250, step: 1, callback: editor.text.changeFontSize, cursor: true, stepfunc: editor.stepFontSize, dragAdjust: .15 });
 
-
+  // 线宽
   $('#stroke_width').dragInput({ min: 0, max: 99, step: 1, callback: editor.changeAttribute, cursor: true, smallStep: 0.1, start: 1.5 });
+
+  // 角度
   $('#angle').dragInput({ min: -180, max: 180, step: 1, callback: editor.changeRotationAngle, cursor: false, dragAdjust: 0.5 });
 
   $('#group_opacity').dragInput({ min: 0, max: 100, step: 5, callback: editor.changeAttribute, cursor: true, start: 100 });
@@ -163,6 +169,7 @@ MD.Panel = function () {
     return (!!text && !!path);
   }
 
+  // 根据选中的元素，更新属性面板
   function updateContextPanel(elems) {
     if (!elems) elems = editor.selected;
     var elem = elems[0] || editor.selected[0];

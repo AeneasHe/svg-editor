@@ -20,6 +20,7 @@ function viewSource(e, forSaving) {
 
 // 保存源码
 function saveSource() {
+  console.log("modalbackup saveSource")
   var saveChanges = function () {
     svgCanvas.clearSelection();
     $('#svg_source_editor').hide();

@@ -26,6 +26,7 @@ MD.Keyboard = function () {
     "cmd_d": { name: "Duplicate", cb: () => editor.duplicateSelected() },
     // 查看源码
     "cmd_u": { name: "View source", cb: () => editor.source() },
+
     "cmd_a": { name: "Select All", cb: () => svgCanvas.selectAllInCurrentLayer() },
     "cmd_b": { name: "Set bold text", cb: () => editor.text.setBold() },
     "cmd_i": { name: "Set italic text", cb: () => editor.text.setItalic() },

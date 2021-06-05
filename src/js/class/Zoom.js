@@ -37,10 +37,15 @@ MD.Zoom = function () {
     }, true);
   })
 
+  // 缩放比例发生变化时
+
   function changed(window, bbox) {
     const scrbar = 15;
     const res = svgCanvas.getResolution();
+
+    // 当前图像的位置
     const canvas_pos = $('#svgcanvas').position();
+
     const updateCanvas = editor.canvas.update;
     const z_info = svgCanvas.setBBoxZoom(bbox, $workarea.width() - scrbar, $workarea.height() - scrbar);
     const zoomlevel = z_info.zoom;
@@ -85,6 +90,7 @@ MD.Zoom = function () {
     var res = svgCanvas.getResolution();
     $('#zoom').val(multiplier * res.zoom * 100);
     svgCanvas.setZoom(multiplier);
+    // 移到中间
     editor.canvas.update(true);
   };
 

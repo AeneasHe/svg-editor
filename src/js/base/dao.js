@@ -25,7 +25,7 @@ const dao = [
     name: "canvasSize",
     label: "Canvas Size",
     type: "array",
-    default: [800, 600],
+    default: [600, 600],
     private: false,
     save: true
   },
@@ -61,7 +61,7 @@ const dao = [
     name: "canvasContent",
     label: "Canvas Content",
     type: "string",
-    default: "<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'></svg>",
+    default: "<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'></svg>",
     private: true,
     save: true
   },
