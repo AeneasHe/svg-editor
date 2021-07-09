@@ -320,8 +320,7 @@ MD.Editor = function () {
   };
 
   function saveCanvas() {
-    console.log("saved")
-
+    console.log("====>save source")
     // 保存画布内容，持久化到localstorage
     state.set("canvasContent", svgCanvas.getSvgString());
   }
@@ -366,6 +365,8 @@ MD.Editor = function () {
 
   // 查看源码
   function source() {
+    console.log("====>update source")
+
     //const textarea = editor.modal.source.el.querySelector("textarea");
     const textarea = editor.sourceView.el.querySelector("#svg_source_textarea");
 

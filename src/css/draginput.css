@@ -9,9 +9,9 @@
 .draginput {
   background-color: var(--z2);
   border-radius: var(--x1);
-  width: calc(50% - var(--x2));
-  max-width: calc(var(--x9) * 2);
-  height: calc(var(--x9) * 2);
+  width: calc(50% - var(--x4));
+  max-width: calc(var(--x6) * 2);
+  height: calc(var(--x6) * 2);
   display: block;
   position: relative;
   margin: 0 var(--x2) var(--x2) 0;
@@ -29,6 +29,7 @@
   box-shadow: none;
 }
 
+/* 按钮选中的样式 */
 .draginput:hover {
   background-color: var(--z3);
   transition: none;
@@ -120,13 +121,14 @@
   color: white;
 }
 
+/* 工具格子的属性 */
 .draginput input {
   border: none;
   background: transparent;
-  font: 24px / normal sans-serif;
+  font: 16px / normal sans-serif;
   text-align: center;
   color: var(--d7);
-  padding: 30px 0 16px;
+  padding: 20px 0 16px;
   width: 100%;
   height: 24px;
   position: relative;
@@ -211,8 +213,9 @@
   color: var(--a15);
 }
 
+/* 工具按钮的标签 */
 .draginput span {
-  font: 12px/130% sans-serif;
+  font: 10px/130% sans-serif;
   color: var(--z8);
   display: block;
   position: absolute;
@@ -281,13 +284,13 @@
 }
 
 .draginput .angle {
-  width: var(--x12);
-  height: var(--x12);
-  border-radius: var(--x12);
+  width: var(--x8);
+  height: var(--x8);
+  border-radius: var(--x8);
   background-color: var(--z3);
   position: absolute;
   bottom: var(--x1);
-  left: 14px;
+  left: 10px;
 }
 
 body.dragging .draginput .angle {

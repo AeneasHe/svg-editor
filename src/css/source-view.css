@@ -18,6 +18,8 @@
   opacity: 1;
   font-size: 16px;
   line-height: 150%;
+  top: -210px;
+  height: 600px;
 }
 
 .source-view.hidden {
