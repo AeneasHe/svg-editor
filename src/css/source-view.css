@@ -49,3 +49,50 @@
 .source-view h1:first-child {
   margin-top: 0;
 }
+
+/* 源码相关样式 */
+
+#svg_source_editor {
+  position: relative;
+  background-color: #fff;
+}
+
+#svg_source_container {
+  position: relative;
+  background-color: #fff;
+  height: 450px;
+}
+
+#svg_source_container form {
+  position: absolute;
+  top: 0;
+  bottom: 55px;
+  left: 0;
+  right: 0;
+  font-size: 14px;
+  background-color: var(--z14);
+  border-radius: 8px 8px 0 0;
+  background-color: #fff;
+}
+
+#svg_source_textarea {
+  width: calc(100% - 84px);
+  height: calc(100% - 64px);
+  line-height: 140%;
+  font-family: var(--mono-font);
+  font-size: 14px;
+  color: var(--z4);
+  border: none;
+  padding: 32px;
+  background-color: transparent;
+}
+
+#svg_source_editor #tool_source_back {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--x2) var(--x2);
+}

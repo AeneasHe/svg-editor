@@ -19,3 +19,15 @@ SVG编辑器
 
 
 # 样式
+
+
+# 几个重点函数
+
+- 将画布中的图像同步到源码
+editor.source()
+
+- 查看源码  
+editor.sourceView.open()
+
+- 保存源码
+editor.saveCanvas();

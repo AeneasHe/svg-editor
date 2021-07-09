@@ -367,10 +367,12 @@ MD.Editor = function () {
   // 查看源码
   function source() {
     //const textarea = editor.modal.source.el.querySelector("textarea");
-    const textarea = editor.sourceView.source.el.querySelector("textarea");
-    textarea.value = svgCanvas.getSvgString();
+    const textarea = editor.sourceView.el.querySelector("#svg_source_textarea");
+
+    //textarea.value = svgCanvas.getSvgString();
+    textarea.innerText = svgCanvas.getSvgString();
     // 打开编辑器的源码对话框
-    editor.sourceView.source.open();
+    editor.sourceView.open();
     editor.saveCanvas();
   }
 

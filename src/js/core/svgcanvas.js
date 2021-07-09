@@ -3070,10 +3070,13 @@ $.SvgCanvas = function (container, config) {
           current_mode = "select";
         case "select":
           if (selectedElements[0] != null) {
-            console.log("mouse up :svgcanvas select ")
+
+            // 捕获鼠标弹起事件
+
+            //console.log("mouse up :svgcanvas select ")
             var mouse_target = svgCanvas.svgToString(getMouseTarget(evt));
 
-            console.log("=====> svgCanvas up mouse_target:", mouse_target)
+            //console.log("=====> svgCanvas up mouse_target:", mouse_target)
 
             editor.sourceFragment.show(mouse_target)
 
@@ -5772,6 +5775,7 @@ $.SvgCanvas = function (container, config) {
   //   
   // Function: setSvgString
   // This function sets the current drawing as the input SVG XML.
+  // 将输入的svg内容解析出来，更新替换当前的画布内容
   //
   // Parameters:
   // xmlString - The SVG as XML text.

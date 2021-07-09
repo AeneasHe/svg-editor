@@ -20,6 +20,7 @@ MD.Zoom = function () {
   });
 
   $('#zoom').change(function (ctl) {
+    console.log("===>zoom:", ctl)
 
     var zoomlevel = this.value / 100;
     if (zoomlevel < .001) {
