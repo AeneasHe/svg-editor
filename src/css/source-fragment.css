@@ -5,15 +5,16 @@
     position: absolute;
     z-index: 2;
     bottom: 50px;
-    left: 20px;
-    width: 60%;
+    left: 100px;
+    width: 90%;
     height: 50px;
     background-color: var(--z1);
-    max-width: 650px;
+    /* max-width: 650px; */
 }
 
 #svg_source_fragment_container {
-    max-width: 800px;
+    /* max-width: 800px; */
+    width: 100%;
     position: relative;
     height: 100%;
 }
@@ -31,7 +32,7 @@
 }
 
 #svg_source_fragment_textarea {
-    width: calc(100% - 24px);
+    width: calc(100% - 124px);
     height: 50px;
     line-height: 140%;
     font-family: var(--mono-font);
@@ -47,7 +48,7 @@
 #svg_source_fragment_editor #tool_source_back {
     position: absolute;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     bottom: 0;
     left: 0;
     right: 0;

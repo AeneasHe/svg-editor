@@ -1,12 +1,22 @@
+#tool_zoom_select {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  bottom: 50px;
+  left: 25px;
+  width: 60px;
+  height: 50px;
+}
 #zoom_panel {
   position: relative;
 
   padding: var(--x2) 0;
   /* right: calc(var(--panel-width) + var(--x2)); */
   cursor: pointer;
-  width: 100px;
-  top: 40px;
-  background-color: blue;
+  width: 50px;
+  top: -25px;
+  /* top: 40px; */
+  /* background-color: blue; */
 }
 
 #zoom_select {
@@ -15,8 +25,8 @@
   padding: var(--x2) 0;
   /* right: calc(var(--panel-width) + var(--x2)); */
   cursor: pointer;
-  width: 100px;
-  top: 60px;
+  width: 50px;
+  top: 0px;
   background-color: red;
 }
 
